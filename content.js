@@ -1,10 +1,14 @@
-var onDOMContentLoaded = (event) => {
+var onDOMContentLoaded = () => {
   const amn = document.querySelector('.amn');
-  amn.querySelector('span:first-child').remove();
+  if (amn == null) return next(onDOMContentLoaded);
+  const spans = amn.querySelectorAll('span');
+  if (spans.length < 3) return next(onDOMContentLoaded);
+  spans[0].remove();
+  next(onDOMContentLoaded);
 }
 
-if (document.readyState === 'complete') {
-  onDOMContentLoaded();
-} else {
-  window.addEventListener('load', onDOMContentLoaded);
-}
+const next = (callback) => {
+  window.requestAnimationFrame(callback);
+};
+
+onDOMContentLoaded()
